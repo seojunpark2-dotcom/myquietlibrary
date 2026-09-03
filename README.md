@@ -32,6 +32,7 @@
 ├── about.html          # 사이트 소개
 ├── features.html       # 기능 소개
 ├── contact.html        # 문의
+├── guides.html         # 공부 가이드
 ├── privacy.html        # 개인정보처리방침
 ├── info.css            # 독립 페이지 공통 스타일
 ├── info-actions.js     # 독립 페이지 이동 버튼 효과음
