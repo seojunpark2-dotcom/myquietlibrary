@@ -1,27 +1,34 @@
 (() => {
-  function playClick() {
+  let context;
+
+  function playNavigationSound() {
     const Audio = window.AudioContext || window.webkitAudioContext;
     if (!Audio) return;
-    const context = new Audio();
+
+    context ||= new Audio();
+    if (context.state === 'suspended') context.resume();
+
     const oscillator = context.createOscillator();
     const gain = context.createGain();
-    oscillator.frequency.setValueAtTime(540, context.currentTime);
-    oscillator.frequency.exponentialRampToValueAtTime(380, context.currentTime + 0.055);
-    gain.gain.setValueAtTime(0.07, context.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, context.currentTime + 0.065);
+    oscillator.type = 'sine';
+    oscillator.frequency.setValueAtTime(620, context.currentTime);
+    oscillator.frequency.exponentialRampToValueAtTime(410, context.currentTime + 0.09);
+    gain.gain.setValueAtTime(0.13, context.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, context.currentTime + 0.11);
     oscillator.connect(gain).connect(context.destination);
     oscillator.start();
-    oscillator.stop(context.currentTime + 0.07);
+    oscillator.stop(context.currentTime + 0.12);
   }
 
-  document.addEventListener('click', (event) => {
-    const link = event.target.closest('a');
-    if (!link || !link.href || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || link.target === '_blank') {
-      if (event.target.closest('button')) playClick();
-      return;
-    }
-    event.preventDefault();
-    playClick();
-    window.setTimeout(() => window.location.assign(link.href), 85);
-  });
+  function isNavigationLink(target) {
+    return target.closest('.topbar a, .cta');
+  }
+
+  document.addEventListener('pointerdown', (event) => {
+    if (isNavigationLink(event.target)) playNavigationSound();
+  }, { capture: true });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' && isNavigationLink(event.target)) playNavigationSound();
+  }, { capture: true });
 })();
