@@ -1,6 +1,6 @@
 (() => {
   function playCtaSound(event) {
-    const link = event.target.closest('a.cta');
+    const link = event.target.closest('.topbar a, a.cta');
     if (!link || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
 
     event.preventDefault();
